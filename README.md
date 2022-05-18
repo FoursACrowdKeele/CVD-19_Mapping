@@ -6,4 +6,5 @@ Open Covid data obtained from coronavirus.data.gov.uk.
 
 ### Roadmap
 
--[ ] one
+- [ ] one
+- [x] two 
