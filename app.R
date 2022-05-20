@@ -13,6 +13,9 @@ library(sf)
 library(ggplot2)
 
 ltla <- readRDS(file = "ltla21_boundaries.rds")
+#What level of detail are these? Are they generalised/clipped? If not it might be worth it - I've found mapping to take quite some time so far
+#Wondering if topoJSON or some other simplified form is also worth looking into
+
 #not sure if it goes here or in server section, but we need to:
 #first load the covid data and boundaries, and make sure date is formatted correctly in covid data
 #then filter the covid data based on date - from a calendar/slider in the UI ideally - down to 1 row = 1 geog area code
