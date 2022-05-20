@@ -2,12 +2,13 @@
 
 Creation of a R Shiny web dashboard to show Covid-19 cases by divided by LTLAs over time. LTLAs (Lower-tier local authorities) is a sub-geogrphy of the UK.
 
-### App:
+#### App
 https://keeletestoneltd.shinyapps.io/cvd-19_mapping/
 
+#### Data sources
 Open Covid data obtained from coronavirus.data.gov.uk.
 
-### Roadmap
+#### Roadmap
 
 - [ ] Minimum requirements
   - [ ] Display on a map covid case rates in different regions of the UK 
