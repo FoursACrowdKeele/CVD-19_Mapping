@@ -12,7 +12,7 @@ Open Covid data obtained from coronavirus.data.gov.uk.
 
 - [ ] Minimum requirements
   - [ ] Display on a map covid case rates in different regions of the UK 
-  - [ ] Be accessible online from multiple devices 
+  - [x] Be accessible online from multiple devices 
   - [ ] Be able to interactively change the date (with a slider or with a calendar? Or both?) 
 - [ ] Tier 1
   - [ ] Be able to change between different geographies (eg Local Authorities or MSOAs – perhaps with a drop-down box) 
