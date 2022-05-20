@@ -13,6 +13,12 @@ library(sf)
 library(ggplot2)
 
 ltla <- readRDS(file = "ltla21_boundaries.rds")
+#not sure if it goes here or in server section, but we need to:
+#first load the covid data and boundaries, and make sure date is formatted correctly in covid data
+#then filter the covid data based on date - from a calendar/slider in the UI ideally - down to 1 row = 1 geog area code
+#then join covid data to boundary files (using merge unless there's a better/more efficient option?)
+#then finally the ggplot mapping code
+#ideally should be able to also pass in from the UI what measure we're mapping
 
 # Define UI ----
 ui <- fluidPage(
