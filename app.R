@@ -22,10 +22,10 @@ ltla <- readRDS(file = "ltla21_boundaries.rds")
 
 # Define UI ----
 ui <- fluidPage(
-  titlePanel("title"),
+  titlePanel("Covid-19 UK cases by LTLA"),
   
   sidebarLayout(
-    sidebarPanel("sb panel"),
+    sidebarPanel("Inputs"),
     mainPanel(
       "LTLA boundary map",
       plotOutput("map"))
