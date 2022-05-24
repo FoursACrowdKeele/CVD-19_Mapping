@@ -20,19 +20,39 @@ library(tidyverse)
 library(lubridate)
 library(dplyr)
 
-# load data from files
-ltla <- readRDS(file = "ltla21_boundaries.rds")
+# load boundry data from files and rename
+ltla_bounds <- readRDS(file = "ltla21_boundaries.rds")
+ltla_bounds = ltla_bounds %>%
+  rename(areaName="ltla21_name",areaCode="ltla21_code")
+#load covid data
 ltlaC19 <- read_csv("covid_ltla_2022-05-16.csv")
-# convert date to date commencing. e.g. each date is converted to the week it belongs to (week starts monday)
+
+# convert dates to week commencing date. e.g. each date is converted to the...
+# week it belongs to (week starts monday)
 ltlaC19$date = cut(as.Date(ltlaC19$date), "week")
 # group by week and sum covid cases per day for each ltla
-ltlaC19 <- aggregate(newCasesBySpecimenDate~areaCode+areaName+areaType+date,ltlaC19,sum)
+ltlaC19 <- aggregate(newCasesBySpecimenDate~
+                       areaCode+areaName+areaType+date,ltlaC19,sum)
 ltlaC19$date <- as.Date(ltlaC19$date)
 
 min_date = min(ltlaC19$date)
 max_date = max(ltlaC19$date)
 
-map_and_data <- merge(ltla,ltlaC19,by.x="ltla21_code", by.y="areaCode",all.x=TRUE)
+# get all combinations of dates and areas so the full map is rendered
+cart_prod_df = crossing(data.frame(date=ltlaC19$date),
+                        data.frame(areaCode=ltla_bounds$areaCode))
+# join back to boundry data to collect geometry column
+cart_prod_df = merge(ltla_bounds,cart_prod_df,x.by=areaCode,
+                     y.by=areaCode)
+
+# join tables, keep all date and area combinations (left join)
+map_and_data <- merge(cart_prod_df,select(ltlaC19, c("areaCode",
+                                                     "date",
+                                                     "newCasesBySpecimenDate")),
+                      by=c("areaCode","date"), all.x = TRUE)
+
+# replace NA counts with 0
+# map_and_data[is.na(map_and_data)] <- 0
 
 #may need to convert date but this file seems to work natively on my local machine
 #What level of detail are these? Are they generalised/clipped? If not it might be worth it - I've found mapping to take quite some time so far
