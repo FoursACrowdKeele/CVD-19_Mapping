@@ -21,9 +21,9 @@ library(lubridate)
 library(dplyr)
 
 # load boundry data from files and rename
-ltla_bounds <- readRDS(file = "ltla21_boundaries.rds")
-ltla_bounds = ltla_bounds %>%
-  rename(areaName="ltla21_name",areaCode="ltla21_code")
+load("boundaries_ltla19.rda")
+ltla_bounds = boundaries_ltla19 %>%
+  rename(areaName="ltla19_name",areaCode="ltla19_code")
 #load covid data
 ltlaC19 <- read_csv("covid_ltla_2022-05-16.csv")
 
