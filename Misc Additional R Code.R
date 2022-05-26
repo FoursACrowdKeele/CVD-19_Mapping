@@ -3,6 +3,7 @@
 
 #This section contains code for mapping English IMD ranks ----------------------------------------------------------------------------------------
 #mapping welsh ranks on the same map is a work in progress (scottish data so far unavailable)
+#may also be worth investigating https://research.mysociety.org/sites/imd2019/about/ to try to map based on MSOA instead of LSOA
 
 #load datasets and merge
 load("boundaries_lsoa11.rda")
