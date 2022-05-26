@@ -6,7 +6,10 @@ Creation of a R Shiny web dashboard to show Covid-19 cases by divided by LTLAs o
 https://keeletestoneltd.shinyapps.io/cvd-19_mapping/
 
 #### Data sources
-Open Covid data obtained from coronavirus.data.gov.uk.
+Open Covid data obtained from https://coronavirus.data.gov.uk/details/download 
+Population data obtained from https://www.ons.gov.uk/peoplepopulationandcommunity/populationandmigration/populationestimates/datasets/populationestimatesforukenglandandwalesscotlandandnorthernireland
+IMD data obtained from https://www.gov.uk/government/statistics/english-indices-of-deprivation-2019 
+UK boundaries data obtained from https://github.com/humaniverse/geographr
 
 #### Roadmap
 
