@@ -21,11 +21,21 @@ library(lubridate)
 library(dplyr)
 
 # load boundry data from files and rename
-load("boundaries_ltla19.rda")
-ltla_bounds = boundaries_ltla19 %>%
+ltla_bounds <- readRDS(file = "boundaries_ltla19.rds")
+ltla_bounds = ltla_bounds %>%
   rename(areaName="ltla19_name",areaCode="ltla19_code")
-#load covid data
+# load covid data
 ltlaC19 <- read_csv("covid_ltla_2022-05-16.csv")
+# load IMD data
+#load datasets and merge
+load("boundaries_lsoa11.rda")
+IMDRanks <- read_csv("Eng + Wales IMD 2019.csv")
+IMDmapdata <-  merge(boundaries_lsoa11,IMDRanks,by.x="lsoa11_code", by.y="LSOA code",all.x=TRUE)
+
+#subset into separate dataframes for wales and england (temporary until I can figure out mapping both on one)
+IMDmapdataWALES <- subset(IMDmapdata, Country == "Wales")
+IMDmapdataENGLAND <- subset(IMDmapdata, Country == "England")
+
 
 # convert dates to week commencing date. e.g. each date is converted to the...
 # week it belongs to (week starts monday)
@@ -74,26 +84,33 @@ ui <- fluidPage(
   sidebarLayout(
     sidebarPanel("Inputs",
                  sliderInput("date",
-                             "Date",
+                             "Week Commencing Date",
                              min = min_date,
                              max = max_date,
                              value = min_date,
                              step=7,
-                             animate=TRUE),
-                 animationOptions(interval=2500),
-                 textOutput("SliderText")),
+                             animate=animationOptions(interval=1500))#,
+                 #animationOptions(interval=2500)#,
+                 #textOutput("SliderText")
+                 ),
     mainPanel(
-      "LTLA boundary map",
-      plotOutput("map"))
+      fluidRow(
+         column(6,
+               "LTLA boundary map",
+               plotOutput("map")
+                ),
+          column(6,
+                 "LSOA IMD",
+                 plotOutput("map2")
+                )
+               )
+              )
   )
 )
 
 # Define server logic ----
 server <- function(input, output) {
   # Data fiddling - should this go in Server section? ---- 
-  
-  #mapdata <- subset(ltlaC19, date==input$date) #Placeholder test date - want to pass from calendar/slider in UI
-  #map_and_data <- merge(ltla,mapdata,by.x="ltla21_code", by.y="areaCode",all.x=TRUE)
   
   theme(plot.margin=grid::unit(c(0,0,0,0), "mm"))
   
@@ -102,8 +119,15 @@ server <- function(input, output) {
       geom_sf(aes(fill = newCasesBySpecimenDate),lwd = 0.1) + #Pass in other measures to fill from UI - will need to put them in src file
       theme_void() + 
       scale_fill_gradient2(low = "#a50026", high = "#005abb", na.value = "#808080")
+    )
     
-  )
+    #Mapping english imd ranks
+    output$map2 <- renderPlot(
+      ggplot(IMDmapdataENGLAND) +  
+      geom_sf(aes(fill = Rank,geometry=geometry),lwd = 0) + #Pass in other measures to fill from UI - will need to put them in src file
+      #  scale_fill_gradient2(low = "#550000", high = "#ff0000", na.value = "#808080")
+      scale_fill_gradient()
+    )
 }
 
 # Run the app ----
